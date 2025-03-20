@@ -8,29 +8,35 @@
     <title>Jcc74: Vérification du site</title>
     <script>
         async function checkSite() {
+            const currentUrl = window.location.pathname;  // Récupère le chemin de l'URL (par ex. /streaming)
+            const baseUrl = "https://main.jcc74.com";  // Base URL
+
+            const newUrl = baseUrl + currentUrl;  // Crée la nouvelle URL à partir de l'URL entrée par l'utilisateur
+
+            // Liste des URLs à vérifier (ajoute ici d'autres miroirs si nécessaire)
             const urls = [
-                "https://main.jcc74.com",
-                "https://mirror.jcc74.com"
+                newUrl,
+                "https://mirror.jcc74.com" + currentUrl
             ];
-            
+
             for (let url of urls) {
                 try {
                     const response = await fetch(url, { mode: 'no-cors' });
                     if (response) {
-                        window.location.href = url;
+                        window.location.href = url;  // Redirection si l'URL est disponible
                         return;
                     }
                 } catch (error) {
                     console.log(`Échec de connexion à ${url}`);
                 }
             }
-            
+
             document.getElementById("message").innerHTML = 
                 "Désolé, ni le site web ni ses miroirs ne sont disponibles. " +
                 "Une panne majeure est en cours. Veuillez réessayer plus tard ou " +
                 "essayer la <a href='https://web.archive.org/web/*/https://jcc74.com' target='_blank'>Wayback Machine</a>.";
         }
-        
+
         window.onload = checkSite;
     </script>
     <style>
@@ -46,8 +52,3 @@
     <p id="message">Patientez pendant que nous vérifions la disponibilité du site.</p>
 </body>
 </html>
-
-
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3737193990520776"
-     crossorigin="anonymous"></script>
